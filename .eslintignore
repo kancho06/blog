@@ -1,0 +1,7 @@
+/build/**
+/coverage/**
+/docs/**
+/tmp/**
+/node_modules/**
+/graphql/**
+/webpack
