@@ -11,13 +11,14 @@
     "lint": "eslint \"./**/*.{ts,tsx}\"",
     "lint:fix": "eslint --fix \"./**/*.{ts,tsx}\" && prettier --write './**/*.{ts,tsx}'",
     "build": "next build",
-    "start": "next start"
+    "start": "serve out"
   },
   "dependencies": {
     "cookie": "^0.4.0",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.1.0",
     "next": "14.0.3",
+    "next-seo": "^6.4.0",
     "react": "^18",
     "react-dom": "^18",
     "styled-components": "5.3.5",
@@ -25,13 +26,14 @@
     "styled-reset": "^4.2.2"
   },
   "devDependencies": {
+    "serve": "^14.2.1",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/cookie": "^0.3.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/styled-components": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "dotenv-webpack": "^2.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^8.5.0",
