@@ -64,7 +64,7 @@ const Menu: React.FC<Props> = (props) => {
         <Container>
             <MenuArea>
                 {menuItems.map((item, i) => {
-                    const active = item.href === "/blog" + router.pathname;
+                    const active = item.href === router.pathname;
                     return (
                         <MenuItem key={i} active={active}>
                             <Link key={i} href={item.href} passHref legacyBehavior>

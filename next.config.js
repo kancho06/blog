@@ -13,6 +13,7 @@ const withMDX = require('@next/mdx')({
     }
 });
 const nextConfig = {
+    basePath: "/blog",
     output: "export",
     webpack: config => {
         config.plugins = config.plugins || [];
