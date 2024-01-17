@@ -3,12 +3,15 @@ const colors: { [Key in Color]: string } = {
     white: "#fff",
     red: "#dc143c",
     blue: "#0068ee",
-    grey: "#f6f6f6",
+    grey: "#808080",
+    darkGrey: "#323232",
+    dimGrey: "#696969",
+    slateGrey: "#708090",
     none: "",
 };
 export default colors;
 
-export type Color = "black" | "white" | "red" | "blue" | "grey" | "none";
+export type Color = "black" | "white" | "red" | "blue" | "grey" | "darkGrey" | "dimGrey" | "slateGrey" | "none";
 
 export function hexToRgba(hex: string, alpha = 1): string {
     return "rgba(" + parseInt(hex.substring(1, 3), 16) + "," + parseInt(hex.substring(3, 5), 16) + "," + parseInt(hex.substring(5, 7), 16) + "," + alpha + ")";

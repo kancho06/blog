@@ -3,6 +3,7 @@ import { WithRouterProps } from "next/dist/client/with-router";
 import getConfig from "../config";
 import styled from "styled-components";
 import colors from "../lib/color";
+import Menu, { MenuItem } from "../components/Menu";
 const config = getConfig();
 
 const Container = styled.div`
@@ -28,12 +29,21 @@ interface Props extends WithRouterProps {
     children: any;
 }
 
+const menuItems: MenuItem[] = [
+    { label: "Kancho's blog", href: "/" },
+    { label: "Profile", href: "/profile" },
+    { label: "Tech", href: "/tech" },
+    { label: "Daily", href: "/daily" },
+    { label: "Contact", href: "/contact" },
+];
+
 const MainLayout: React.FC<Props> = (props) => {
-    const { children } = props;
+    const { children, router } = props;
     const isProd = config.environment === "production";
     return (
         <Container>
             {!isProd && <EnvLabel>ENV: {config.environment}</EnvLabel>}
+            <Menu menuItems={menuItems} router={router} />
             {children}
         </Container>
     );

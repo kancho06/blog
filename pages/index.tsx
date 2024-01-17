@@ -6,7 +6,7 @@ import MainLayout from "../layout/MainLayout";
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    margin: 80px 0 0 20px;
 `;
 
 const StyledImg = styled.img`
@@ -14,12 +14,13 @@ const StyledImg = styled.img`
     height: 200px;
 `;
 
-const Index: PageComponent = (props) => {
+const Index: PageComponent<null> = (props) => {
     const { router } = props;
     return (
         <MainLayout router={router}>
-            <h1>hello world</h1>
-            <StyledImg src={url.resolvePath("/next.svg")} />
+            <Container>
+                <StyledImg src={url.resolvePath("/next.svg")} />
+            </Container>
         </MainLayout>
     );
 };

@@ -1,6 +1,8 @@
 import { NextRouter } from "next/router";
+import React from "react";
 
-export interface PageProps {
+export interface PageProps<T> {
     router: NextRouter;
+    data: T;
 }
-export type PageComponent = React.ComponentType<PageProps>;
+export type PageComponent<T> = React.ComponentType<PageProps<T>>;
