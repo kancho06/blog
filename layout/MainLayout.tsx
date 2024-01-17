@@ -30,11 +30,11 @@ interface Props extends WithRouterProps {
 }
 
 const menuItems: MenuItem[] = [
-    { label: "Kancho's blog", href: "/" },
-    { label: "Profile", href: "/profile" },
-    { label: "Tech", href: "/tech" },
-    { label: "Daily", href: "/daily" },
-    { label: "Contact", href: "/contact" },
+    { label: "Kancho's blog", href: "/blog/" },
+    { label: "Profile", href: "/blog/profile" },
+    { label: "Tech", href: "/blog/tech" },
+    { label: "Daily", href: "/blog/daily" },
+    { label: "Contact", href: "/blog/contact" },
 ];
 
 const MainLayout: React.FC<Props> = (props) => {

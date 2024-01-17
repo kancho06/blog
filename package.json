@@ -1,10 +1,10 @@
 {
-  "name": "kancho06-til",
+  "name": "kancho's_blog",
   "version": "0.1.0",
   "description": "",
   "author": "kancho06",
   "license": "UNLICENSED",
-  "homepage": "https://kancho06.github.io/kancho06-til",
+  "homepage": "https://kancho06.github.io/",
   "private": true,
   "scripts": {
     "dev": "next dev",
