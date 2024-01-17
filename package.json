@@ -4,7 +4,7 @@
   "description": "",
   "author": "kancho06",
   "license": "UNLICENSED",
-  "homepage": "https://kancho06.github.io/",
+  "homepage": "https://kancho06.github.io/blog/",
   "private": true,
   "scripts": {
     "dev": "next dev",

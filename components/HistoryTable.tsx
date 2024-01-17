@@ -53,7 +53,7 @@ const HistoryTable: React.FC<Props> = (props) => {
                     return (
                         <>
                             <CustomLi>
-                                <Link href={`/tech/${data.data.id}/detail`} passHref legacyBehavior>
+                                <Link href={`/blog/tech/${data.data.id}/detail`} passHref legacyBehavior>
                                     <PostTitle
                                         onClick={() => {
                                             handleClick(data.data.id + "");
