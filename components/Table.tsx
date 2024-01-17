@@ -85,7 +85,7 @@ const Table: React.FC<Props> = (props) => {
                     return (
                         <>
                             <CustomLi key={i}>
-                                <Link href={`/blog/tech/${d.data.id}/detail`} passHref legacyBehavior>
+                                <Link href={`/tech/${d.data.id}/detail`} passHref legacyBehavior>
                                     <PostTitle
                                         onClick={() => {
                                             handleClick(d.data.id + "");
