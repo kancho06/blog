@@ -1,16 +1,16 @@
-import { PageComponent } from "../../types/page";
 import styled from "styled-components";
+import colors from "../../lib/color";
+import { PageComponent } from "../../types/page";
+import * as api from "../../lib/api";
 import { GetStaticProps } from "next";
+import { useState } from "react";
+import useDebounce from "../../lib/useDebounce";
+import * as storage from "../../lib/storage";
 import MainLayout from "../../layout/MainLayout";
+import SearchInput from "../../components/SearchInput";
 import Table from "../../components/Table";
 import Pager from "../../components/Pager";
-import { useState } from "react";
-import * as api from "../../lib/api";
-import * as storage from "../../lib/storage";
 import HistoryTable from "../../components/HistoryTable";
-import SearchInput from "../../components/SearchInput";
-import useDebounce from "../../lib/useDebounce";
-import colors from "../../lib/color";
 
 const Container = styled.div`
     width: 100%;
@@ -105,7 +105,7 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
     })();
     const totalCount = targetData.length;
     const slicedData = targetData.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
-    const historyIds = storage.getTechHistory().slice(0, 10);
+    const historyIds = storage.getDailyHistory().slice(0, 10);
     const history = data.filter((d) => {
         return historyIds.includes(d.data.id + "");
     });
@@ -122,8 +122,8 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
         <MainLayout router={router}>
             <Container>
                 <PageDescriptionArea>
-                    <Label>Tech board</Label>
-                    <Description>開発しながら扱った技術の情報や学んだことを書きます。</Description>
+                    <Label>Daily board</Label>
+                    <Description>日常生活のことや美味しいお店を紹介します。</Description>
                 </PageDescriptionArea>
                 <SearchArea>
                     <SearchInputWrapper>
@@ -165,7 +165,7 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const posts = api.getAllMdxData(api.TECH_FILE_PATH);
+    const posts = api.getAllMdxData(api.DAILY_FILE_PATH);
     return {
         props: {
             data: posts,

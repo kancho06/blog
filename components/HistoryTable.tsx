@@ -38,7 +38,6 @@ interface Props {
 
 const handleClick = (id: string) => {
     const techHistory = storage.getTechHistory();
-    console.info("techHistory", techHistory);
     storage.setTechHistory([...new Set([id, ...techHistory])]);
 };
 

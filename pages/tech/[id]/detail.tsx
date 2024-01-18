@@ -15,7 +15,7 @@ const MdxWrapper = styled.div`
     width: 97%;
 `;
 
-const Detail: PageComponent<api.DetailTechData> = (props) => {
+const Detail: PageComponent<api.DetailMdxData> = (props) => {
     const { router, data } = props;
     return (
         <MainLayout router={router}>
@@ -47,7 +47,8 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
             },
         };
     }
-    const post = await api.getTechData(context.params.id as string);
+    const path = api.TECH_DETAIL_FILE_PATH(context.params.id as string);
+    const post = await api.getDetailMdxData(path);
     return {
         props: {
             data: post,

@@ -3,38 +3,44 @@ import fs from "fs";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { DailyCategory, TechCategory } from "../types/mdxTypes";
 
-type DataCategory = "tech" | "daily";
+export interface FrontMatter {
+    id: number;
+    title: string;
+    category: TechCategory | DailyCategory;
+    seriesId: number | null;
+    seriesTitle: string | null;
+    author: string;
+    createdAt: string; // YYYY.MM.DD
+    description: string;
+}
 
-export interface TechData {
+export interface MdxData {
     content: string;
-    data: {
-        id: number;
-        title: string;
-        category: DataCategory;
-        author: string;
-        createdAt: string; // YYYY.MM.DD
-        description: string;
-    };
+    data: FrontMatter;
     filePath: string;
 }
 
-export interface DetailTechData extends TechData {
+export interface DetailMdxData extends MdxData {
     mdxSrc: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
 }
 
 export const TECH_FILE_PATH = path.join(process.cwd(), "data/tech");
-const TECH_DETAIL_FILE_PATH = (id: string) => path.join(process.cwd(), `data/tech/${id}.mdx`);
+export const DAILY_FILE_PATH = path.join(process.cwd(), "data/daily");
+export const TECH_DETAIL_FILE_PATH = (id: string) => path.join(process.cwd(), `data/tech/${id}.mdx`);
+export const DAILY_DETAIL_FILA_PATH = (id: string) => path.join(process.cwd(), `data/daily/${id}.mdx`);
 
 export const getPaths = (filePath: string) => {
     return fs.readdirSync(filePath).filter((path) => /\.mdx?$/.test(path));
 };
 
-export function getAllTechData(): TechData[] {
-    const paths = getPaths(TECH_FILE_PATH);
+export function getAllMdxData(dirPath: string): MdxData[] {
+    console.info("dirpath => ", dirPath);
+    const paths = getPaths(dirPath);
     return paths
         .map((filePath) => {
-            const src = fs.readFileSync(path.join(TECH_FILE_PATH, filePath), {
+            const src = fs.readFileSync(path.join(dirPath, filePath), {
                 encoding: "utf8",
             });
             const { content, data } = matter(src);
@@ -44,6 +50,8 @@ export function getAllTechData(): TechData[] {
                     id: data.id,
                     title: data.title,
                     category: data.category,
+                    seriesId: data.seriesId ? data.seriesId : null,
+                    seriesTitle: data.seriesTitle ? data.seriesTitle : null,
                     author: data.author,
                     createdAt: data.createdAt,
                     description: data.description,
@@ -56,8 +64,7 @@ export function getAllTechData(): TechData[] {
         });
 }
 
-export async function getTechData(id: string): Promise<DetailTechData> {
-    const path = TECH_DETAIL_FILE_PATH(id);
+export async function getDetailMdxData(path: string): Promise<DetailMdxData> {
     const src = fs.readFileSync(path);
     const { content, data } = matter(src);
     const mdxSrc = await serialize(content, {
@@ -79,6 +86,8 @@ export async function getTechData(id: string): Promise<DetailTechData> {
             id: data.id,
             title: data.title,
             category: data.category,
+            seriesId: data.seriesId ? data.seriesId : null,
+            seriesTitle: data.seriesTitle ? data.seriesTitle : null,
             author: data.author,
             createdAt: data.createdAt,
             description: data.description,

@@ -97,7 +97,7 @@ const Pager: React.FC<Props> = (props) => {
             <TotalCount>Total {totalCount}</TotalCount>
             {pages.map((page: number | string, index: number) => {
                 if (currentPage === page) {
-                    return <PaginationSelectedItem key={`${page}${index}`}></PaginationSelectedItem>;
+                    return <PaginationSelectedItem key={`${page}${index}`}>{page}</PaginationSelectedItem>;
                 }
                 return (
                     <PaginationItem

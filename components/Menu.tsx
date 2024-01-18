@@ -19,6 +19,8 @@ const Container = styled.div`
     left: 0;
     display: flex;
     position: fixed;
+    z-index: 1000;
+    background-color: ${colors.white};
 `;
 
 const MenuArea = styled.div`
@@ -27,9 +29,8 @@ const MenuArea = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
     border: 2px solid black;
-    margin: 10px;
+    margin: 10px 10px 0 10px;
 `;
 
 const MenuItem = styled.div<{

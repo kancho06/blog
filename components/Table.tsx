@@ -1,5 +1,5 @@
 import React from "react";
-import { TechData } from "../lib/api";
+import * as api from "../lib/api";
 import styled from "styled-components";
 import colors from "../lib/color";
 import Link from "next/link";
@@ -9,14 +9,15 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const Title = styled.div`
-    font-size: 35px;
+const Label = styled.div`
+    font-size: 25px;
     font-weight: bold;
     color: ${colors.black};
 `;
 
 const CustomUl = styled.ul`
     padding: 10px;
+    margin-top: 0;
 `;
 
 const CustomLi = styled.li`
@@ -30,7 +31,13 @@ const Line = styled.div`
     margin-top: 10px;
 `;
 
-const PostTitle = styled.a`
+const TitleArea = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+`;
+
+const Title = styled.a`
     font-size: 20px;
     color: ${colors.black};
     font-weight: bold;
@@ -39,6 +46,12 @@ const PostTitle = styled.a`
         font-size: 23px;
         color: ${colors.red};
     }
+`;
+
+const Category = styled.div`
+    font-size: 16px;
+    color: ${colors.slateGrey};
+    margin-left: 20px;
 `;
 
 const AuthorArea = styled.div`
@@ -65,8 +78,8 @@ const DescriptionArea = styled.div`
 `;
 
 interface Props {
-    title: string;
-    data: TechData[];
+    label: string;
+    data: api.MdxData[];
 }
 
 const handleClick = (id: string) => {
@@ -75,25 +88,28 @@ const handleClick = (id: string) => {
 };
 
 const Table: React.FC<Props> = (props) => {
-    const { title, data } = props;
+    const { label, data } = props;
 
     return (
         <Container>
-            <Title>{title}</Title>
+            <Label>{label}</Label>
             <CustomUl>
                 {data.map((d, i) => {
                     return (
                         <>
                             <CustomLi key={i}>
-                                <Link href={`/tech/${d.data.id}/detail`} passHref legacyBehavior>
-                                    <PostTitle
-                                        onClick={() => {
-                                            handleClick(d.data.id + "");
-                                        }}
-                                    >
-                                        {d.data.title}
-                                    </PostTitle>
-                                </Link>
+                                <TitleArea>
+                                    <Link href={`/tech/${d.data.id}/detail`} passHref legacyBehavior>
+                                        <Title
+                                            onClick={() => {
+                                                handleClick(d.data.id + "");
+                                            }}
+                                        >
+                                            {d.data.title}
+                                        </Title>
+                                    </Link>
+                                    <Category>{d.data.category}</Category>
+                                </TitleArea>
                                 <AuthorArea>
                                     <Author>{d.data.author}&nbsp;//&nbsp;</Author>
                                     <CreatedAt>{d.data.createdAt}</CreatedAt>

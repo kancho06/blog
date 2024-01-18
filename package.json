@@ -30,7 +30,8 @@
     "react-dom": "^18",
     "styled-components": "5.3.5",
     "styled-jsx": "^5.0.5",
-    "styled-reset": "^4.2.2"
+    "styled-reset": "^4.2.2",
+    "react-icons": "^5.0.1"
   },
   "devDependencies": {
     "@stylelint/postcss-css-in-js": "^0.38.0",
