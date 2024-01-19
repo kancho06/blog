@@ -22,6 +22,9 @@ const nextConfig = {
     compiler: {
         styledComponents: true,
     },
+    images: {
+        unoptimized: true,
+    },
     env: {
         environment: process.env.ENVIRONMENT,
         basePath: process.env.BASE_PATH,
