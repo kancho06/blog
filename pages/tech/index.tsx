@@ -82,6 +82,11 @@ type PageParam = {
     searchParam: SearchParam;
 };
 
+const handleClick = (id: string) => {
+    const techHistory = storage.getTechHistory();
+    storage.setTechHistory([...new Set([id, ...techHistory])]);
+};
+
 const Index: PageComponent<api.MdxData[]> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
@@ -143,7 +148,13 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
                 </SearchArea>
                 <ResultArea>
                     <TableWrapper>
-                        <Table label={tableLabel} data={slicedData} />
+                        <Table
+                            label={tableLabel}
+                            data={slicedData}
+                            onClick={(id) => {
+                                handleClick(id);
+                            }}
+                        />
                         <Pager
                             totalCount={totalCount}
                             param={pageParam}
@@ -165,7 +176,7 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const posts = api.getAllMdxData(api.TECH_FILE_PATH);
+    const posts = api.getAllMdxData("tech");
     return {
         props: {
             data: posts,

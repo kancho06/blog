@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import colors from "../lib/color";
 import { FaSearch } from "react-icons/fa";
@@ -55,7 +55,6 @@ interface Props {
 
 const SearchInput: React.FC<Props> = (props) => {
     const { label, onChange, format, placeHolder } = props;
-    const ref = useRef<HTMLInputElement>(null);
     return (
         <Container>
             {label && (
@@ -66,7 +65,6 @@ const SearchInput: React.FC<Props> = (props) => {
             <SearchInputContainer>
                 <SearchIcon />
                 <CustomInput
-                    ref={ref}
                     placeholder={placeHolder}
                     onChange={(ev) => {
                         const value = ev.target.value;
@@ -82,6 +80,4 @@ const SearchInput: React.FC<Props> = (props) => {
     );
 };
 
-const SearchInputForward = React.forwardRef(SearchInput as React.ForwardRefRenderFunction<HTMLInputElement, Props>);
-SearchInputForward.displayName = "SearchInputForward";
-export default SearchInputForward;
+export default SearchInput;

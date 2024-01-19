@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { TechData } from "../lib/api";
+import * as api from "../lib/api";
 import colors from "../lib/color";
 import Link from "next/link";
 import * as storage from "../lib/storage";
@@ -33,7 +33,7 @@ const PostTitle = styled.a`
 `;
 
 interface Props {
-    history: TechData[];
+    history: api.MdxData[];
 }
 
 const handleClick = (id: string) => {

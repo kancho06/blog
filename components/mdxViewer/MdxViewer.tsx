@@ -1,15 +1,17 @@
 import React from "react";
 import CodeBlock from "./CodeBlock";
-import { MDXProvider } from "@mdx-js/react";
 import "github-markdown-css";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { MDXComponents } from "mdx/types";
+import Image from "next/image";
 
 interface Props {
-    children: React.ReactNode;
+    children: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
 }
 
-const mdxComponents = {
+const mdxComponents: MDXComponents = {
     code: CodeBlock,
+    img: (props: any) => <Image {...props} />,
 };
 
 const MdxViewer: React.FC<Props> = (props) => {
@@ -23,9 +25,9 @@ const MdxViewer: React.FC<Props> = (props) => {
                     }
                 `}
             </style>
-            <MDXProvider components={mdxComponents as MDXComponents}>
-                <div className="markdown-light-body">{children}</div>
-            </MDXProvider>
+            <div className="markdown-light-body">
+                <MDXRemote {...children} components={mdxComponents} />
+            </div>
         </>
     );
 };

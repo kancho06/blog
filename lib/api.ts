@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { DailyCategory, TechCategory } from "../types/mdxTypes";
+import rehypeImageSize from "./rehypeImageSize";
 
 export interface FrontMatter {
     id: number;
@@ -19,12 +20,14 @@ export interface FrontMatter {
 export interface MdxData {
     content: string;
     data: FrontMatter;
-    filePath: string;
+    href: string;
 }
 
 export interface DetailMdxData extends MdxData {
     mdxSrc: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
 }
+
+export type DataType = "tech" | "daily";
 
 export const TECH_FILE_PATH = path.join(process.cwd(), "data/tech");
 export const DAILY_FILE_PATH = path.join(process.cwd(), "data/daily");
@@ -35,15 +38,26 @@ export const getPaths = (filePath: string) => {
     return fs.readdirSync(filePath).filter((path) => /\.mdx?$/.test(path));
 };
 
-export function getAllMdxData(dirPath: string): MdxData[] {
-    console.info("dirpath => ", dirPath);
-    const paths = getPaths(dirPath);
+export function getAllMdxData(type: DataType): MdxData[] {
+    const dir = (() => {
+        if (type === "tech") {
+            return TECH_FILE_PATH;
+        }
+        return DAILY_FILE_PATH;
+    })();
+    const paths = getPaths(dir);
     return paths
         .map((filePath) => {
-            const src = fs.readFileSync(path.join(dirPath, filePath), {
+            const src = fs.readFileSync(path.join(dir, filePath), {
                 encoding: "utf8",
             });
             const { content, data } = matter(src);
+            const href = (() => {
+                if (type === "tech") {
+                    return `/tech/${data.id}/detail`;
+                }
+                return `/daily/${data.id}/detail`;
+            })();
             return {
                 content,
                 data: {
@@ -56,7 +70,7 @@ export function getAllMdxData(dirPath: string): MdxData[] {
                     createdAt: data.createdAt,
                     description: data.description,
                 },
-                filePath,
+                href,
             };
         })
         .sort((a, b) => {
@@ -64,7 +78,13 @@ export function getAllMdxData(dirPath: string): MdxData[] {
         });
 }
 
-export async function getDetailMdxData(path: string): Promise<DetailMdxData> {
+export async function getDetailMdxData(type: DataType, id: string): Promise<DetailMdxData> {
+    const path = (() => {
+        if (type === "tech") {
+            return TECH_DETAIL_FILE_PATH(id);
+        }
+        return DAILY_DETAIL_FILA_PATH(id);
+    })();
     const src = fs.readFileSync(path);
     const { content, data } = matter(src);
     const mdxSrc = await serialize(content, {
@@ -74,12 +94,18 @@ export async function getDetailMdxData(path: string): Promise<DetailMdxData> {
         // https://mdxjs.com/packages/mdx/#compilefile-options
         mdxOptions: {
             remarkPlugins: [],
-            rehypePlugins: [],
+            rehypePlugins: [[rehypeImageSize, { root: process.cwd() + `/public/${type}/` + id }]],
             format: "mdx",
         },
         // Indicates whether or not to parse the frontmatter from the mdx source
         parseFrontmatter: false,
     });
+    const href = (() => {
+        if (type === "tech") {
+            return `/tech/${data.id}/detail`;
+        }
+        return `/daily/${data.id}/detail`;
+    })();
     return {
         content,
         data: {
@@ -92,7 +118,7 @@ export async function getDetailMdxData(path: string): Promise<DetailMdxData> {
             createdAt: data.createdAt,
             description: data.description,
         },
-        filePath: path,
+        href,
         mdxSrc: mdxSrc,
     };
 }

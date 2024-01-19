@@ -1,9 +1,9 @@
-import { PageComponent } from "../../../types/page";
 import styled from "styled-components";
+import { PageComponent } from "../../../types/page";
+import * as api from "../../../lib/api";
+import MainLayout from "../../../layout/MainLayout";
 import MdxViewer from "../../../components/mdxViewer/MdxViewer";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import MainLayout from "../../../layout/MainLayout";
-import * as api from "../../../lib/api";
 
 const Container = styled.div`
     width: 100%;
@@ -16,7 +16,6 @@ const MdxWrapper = styled.div`
 
 const Detail: PageComponent<api.DetailMdxData> = (props) => {
     const { router, data } = props;
-    console.info("path => ", process.cwd());
     return (
         <MainLayout router={router}>
             <Container>
@@ -29,7 +28,7 @@ const Detail: PageComponent<api.DetailMdxData> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const techFilePaths = api.getPaths(api.TECH_FILE_PATH);
+    const techFilePaths = api.getPaths(api.DAILY_FILE_PATH);
     const paths = techFilePaths.map((path) => path.replace(/\.mdx?$/, "")).map((id) => ({ params: { id } }));
     return {
         paths,
@@ -45,7 +44,7 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
             },
         };
     }
-    const post = await api.getDetailMdxData("tech", context.params.id as string);
+    const post = await api.getDetailMdxData("daily", context.params.id as string);
     return {
         props: {
             data: post,

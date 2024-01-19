@@ -3,7 +3,6 @@ import * as api from "../lib/api";
 import styled from "styled-components";
 import colors from "../lib/color";
 import Link from "next/link";
-import * as storage from "../lib/storage";
 
 const Container = styled.div`
     width: 100%;
@@ -80,15 +79,11 @@ const DescriptionArea = styled.div`
 interface Props {
     label: string;
     data: api.MdxData[];
+    onClick: (id: string) => void;
 }
 
-const handleClick = (id: string) => {
-    const techHistory = storage.getTechHistory();
-    storage.setTechHistory([...new Set([id, ...techHistory])]);
-};
-
 const Table: React.FC<Props> = (props) => {
-    const { label, data } = props;
+    const { label, data, onClick } = props;
 
     return (
         <Container>
@@ -99,10 +94,10 @@ const Table: React.FC<Props> = (props) => {
                         <>
                             <CustomLi key={i}>
                                 <TitleArea>
-                                    <Link href={`/tech/${d.data.id}/detail`} passHref legacyBehavior>
+                                    <Link href={d.href} passHref legacyBehavior>
                                         <Title
                                             onClick={() => {
-                                                handleClick(d.data.id + "");
+                                                onClick(d.data.id + "");
                                             }}
                                         >
                                             {d.data.title}
