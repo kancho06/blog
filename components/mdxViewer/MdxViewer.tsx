@@ -4,6 +4,7 @@ import "github-markdown-css";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { MDXComponents } from "mdx/types";
 import Image from "next/image";
+import * as url from "../../lib/url";
 
 interface Props {
     children: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
@@ -11,7 +12,7 @@ interface Props {
 
 const mdxComponents: MDXComponents = {
     code: CodeBlock,
-    img: (props: any) => <Image {...props} />,
+    img: (props: any) => <Image {...props} src={url.resolvePath(props.src)} />,
 };
 
 const MdxViewer: React.FC<Props> = (props) => {

@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { DailyCategory, TechCategory } from "../types/mdxTypes";
-import rehypeImageSize from "./rehypeImageSize";
+import rehypeImgSize from "rehype-img-size";
 
 export interface FrontMatter {
     id: number;
@@ -94,7 +94,8 @@ export async function getDetailMdxData(type: DataType, id: string): Promise<Deta
         // https://mdxjs.com/packages/mdx/#compilefile-options
         mdxOptions: {
             remarkPlugins: [],
-            rehypePlugins: [[rehypeImageSize, { root: process.cwd() + `/public/${type}/` + id }]],
+            // [rehypeImageSize, { root: process.cwd() + `/public/${type}/` + id }]
+            rehypePlugins: [[rehypeImgSize, { dir: "public" }]],
             format: "mdx",
         },
         // Indicates whether or not to parse the frontmatter from the mdx source
