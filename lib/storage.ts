@@ -1,6 +1,6 @@
 const TECH_HISTORY_KEY = "tech_history";
 
-const DAILY_HISTORY_KEY = "daily_history";
+const AlGORITHM_HISTORY_KEY = "algorithm_history";
 
 export function getTechHistory(): string[] {
     if (typeof window === "undefined") {
@@ -26,11 +26,11 @@ export function setTechHistory(ids: string[]): void {
     }
 }
 
-export function getDailyHistory(): string[] {
+export function getAlgorithmHistory(): string[] {
     if (typeof window === "undefined") {
         return [];
     }
-    const dailyHistory = localStorage.getItem(DAILY_HISTORY_KEY);
+    const dailyHistory = localStorage.getItem(AlGORITHM_HISTORY_KEY);
     if (!dailyHistory) {
         return [];
     }
@@ -42,9 +42,9 @@ export function getDailyHistory(): string[] {
     }
 }
 
-export function setDailyHistory(ids: string[]): void {
+export function setAlgorithmHistory(ids: string[]): void {
     try {
-        localStorage.setItem(DAILY_HISTORY_KEY, JSON.stringify(ids));
+        localStorage.setItem(AlGORITHM_HISTORY_KEY, JSON.stringify(ids));
     } catch (e) {
         console.error("[localStorage Error] ", e);
     }

@@ -28,7 +28,7 @@ const Detail: PageComponent<api.DetailMdxData> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const techFilePaths = api.getPaths(api.DAILY_FILE_PATH);
+    const techFilePaths = api.getPaths(api.ALGORITHM_FILE_PATH);
     const paths = techFilePaths.map((path) => path.replace(/\.mdx?$/, "")).map((id) => ({ params: { id } }));
     return {
         paths,
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
             },
         };
     }
-    const post = await api.getDetailMdxData("daily", context.params.id as string);
+    const post = await api.getDetailMdxData("algorithm", context.params.id as string);
     return {
         props: {
             data: post,

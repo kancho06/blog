@@ -5,6 +5,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { DailyCategory, TechCategory } from "../types/mdxTypes";
 import rehypeImgSize from "rehype-img-size";
+import dayjs from "dayjs";
 
 export interface FrontMatter {
     id: number;
@@ -13,7 +14,7 @@ export interface FrontMatter {
     seriesId: number | null;
     seriesTitle: string | null;
     author: string;
-    createdAt: string; // YYYY.MM.DD
+    createdAt: string; // YYYY-MM-DD;
     description: string;
 }
 
@@ -27,12 +28,12 @@ export interface DetailMdxData extends MdxData {
     mdxSrc: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
 }
 
-export type DataType = "tech" | "daily";
+export type DataType = "tech" | "algorithm";
 
 export const TECH_FILE_PATH = path.join(process.cwd(), "data/tech");
-export const DAILY_FILE_PATH = path.join(process.cwd(), "data/daily");
+export const ALGORITHM_FILE_PATH = path.join(process.cwd(), "data/algorithm");
 export const TECH_DETAIL_FILE_PATH = (id: string) => path.join(process.cwd(), `data/tech/${id}.mdx`);
-export const DAILY_DETAIL_FILA_PATH = (id: string) => path.join(process.cwd(), `data/daily/${id}.mdx`);
+export const ALGORITHM_DETAIL_FILA_PATH = (id: string) => path.join(process.cwd(), `data/algorithm/${id}.mdx`);
 
 export const getPaths = (filePath: string) => {
     return fs.readdirSync(filePath).filter((path) => /\.mdx?$/.test(path));
@@ -43,7 +44,7 @@ export function getAllMdxData(type: DataType): MdxData[] {
         if (type === "tech") {
             return TECH_FILE_PATH;
         }
-        return DAILY_FILE_PATH;
+        return ALGORITHM_FILE_PATH;
     })();
     const paths = getPaths(dir);
     return paths
@@ -56,7 +57,7 @@ export function getAllMdxData(type: DataType): MdxData[] {
                 if (type === "tech") {
                     return `/tech/${data.id}/detail`;
                 }
-                return `/daily/${data.id}/detail`;
+                return `/algorithm/${data.id}/detail`;
             })();
             return {
                 content,
@@ -74,6 +75,11 @@ export function getAllMdxData(type: DataType): MdxData[] {
             };
         })
         .sort((a, b) => {
+            const aCreatedAt = dayjs(a.data.createdAt).valueOf();
+            const bCreatedAt = dayjs(b.data.createdAt).valueOf();
+            if (aCreatedAt !== bCreatedAt) {
+                return aCreatedAt - bCreatedAt;
+            }
             return a.data.id - b.data.id;
         });
 }
@@ -83,7 +89,7 @@ export async function getDetailMdxData(type: DataType, id: string): Promise<Deta
         if (type === "tech") {
             return TECH_DETAIL_FILE_PATH(id);
         }
-        return DAILY_DETAIL_FILA_PATH(id);
+        return ALGORITHM_DETAIL_FILA_PATH(id);
     })();
     const src = fs.readFileSync(path);
     const { content, data } = matter(src);
@@ -105,7 +111,7 @@ export async function getDetailMdxData(type: DataType, id: string): Promise<Deta
         if (type === "tech") {
             return `/tech/${data.id}/detail`;
         }
-        return `/daily/${data.id}/detail`;
+        return `/algorithm/${data.id}/detail`;
     })();
     return {
         content,
@@ -123,3 +129,5 @@ export async function getDetailMdxData(type: DataType, id: string): Promise<Deta
         mdxSrc: mdxSrc,
     };
 }
+
+export function getRecentMdxData() {}

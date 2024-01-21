@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
     { label: "Kancho's blog", href: "/" },
     { label: "Profile", href: "/profile" },
     { label: "Tech", href: "/tech" },
-    { label: "Daily", href: "/daily" },
+    { label: "Algorithm", href: "/algorithm" },
     { label: "Contact", href: "/contact" },
 ];
 

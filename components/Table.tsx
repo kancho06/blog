@@ -3,6 +3,7 @@ import * as api from "../lib/api";
 import styled from "styled-components";
 import colors from "../lib/color";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 const Container = styled.div`
     width: 100%;
@@ -84,7 +85,6 @@ interface Props {
 
 const Table: React.FC<Props> = (props) => {
     const { label, data, onClick } = props;
-
     return (
         <Container>
             <Label>{label}</Label>
@@ -92,7 +92,7 @@ const Table: React.FC<Props> = (props) => {
                 {data.map((d, i) => {
                     return (
                         <>
-                            <CustomLi key={i}>
+                            <CustomLi key={"table-" + i}>
                                 <TitleArea>
                                     <Link href={d.href} passHref legacyBehavior>
                                         <Title
@@ -107,7 +107,7 @@ const Table: React.FC<Props> = (props) => {
                                 </TitleArea>
                                 <AuthorArea>
                                     <Author>{d.data.author}&nbsp;//&nbsp;</Author>
-                                    <CreatedAt>{d.data.createdAt}</CreatedAt>
+                                    <CreatedAt>{dayjs(d.data.createdAt).format("YYYY.MM.DD")}</CreatedAt>
                                 </AuthorArea>
                                 <DescriptionArea>{d.data.description}</DescriptionArea>
                                 <Line />

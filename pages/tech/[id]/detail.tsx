@@ -16,7 +16,6 @@ const MdxWrapper = styled.div`
 
 const Detail: PageComponent<api.DetailMdxData> = (props) => {
     const { router, data } = props;
-    console.info("path => ", process.cwd());
     return (
         <MainLayout router={router}>
             <Container>

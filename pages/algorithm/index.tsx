@@ -83,8 +83,8 @@ type PageParam = {
 };
 
 const handleClick = (id: string) => {
-    const techHistory = storage.getDailyHistory();
-    storage.setDailyHistory([...new Set([id, ...techHistory])]);
+    const techHistory = storage.getAlgorithmHistory();
+    storage.setAlgorithmHistory([...new Set([id, ...techHistory])]);
 };
 
 const Index: PageComponent<api.MdxData[]> = (props) => {
@@ -110,7 +110,7 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
     })();
     const totalCount = targetData.length;
     const slicedData = targetData.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
-    const historyIds = storage.getDailyHistory().slice(0, 10);
+    const historyIds = storage.getAlgorithmHistory().slice(0, 10);
     const history = data.filter((d) => {
         return historyIds.includes(d.data.id + "");
     });
@@ -127,8 +127,8 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
         <MainLayout router={router}>
             <Container>
                 <PageDescriptionArea>
-                    <Label>Daily board</Label>
-                    <Description>日常生活のことや美味しいお店を紹介します。</Description>
+                    <Label>Algorithm board</Label>
+                    <Description>アルゴリズム解いながら学んだことを書きます。</Description>
                 </PageDescriptionArea>
                 <SearchArea>
                     <SearchInputWrapper>
@@ -167,7 +167,12 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
                         />
                     </TableWrapper>
                     <HistoryTableWrapper>
-                        <HistoryTable history={sortedHistory.slice(0, 7)} />
+                        <HistoryTable
+                            history={sortedHistory.slice(0, 7)}
+                            onClick={(id) => {
+                                handleClick(id);
+                            }}
+                        />
                     </HistoryTableWrapper>
                 </ResultArea>
             </Container>
@@ -176,7 +181,7 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const posts = api.getAllMdxData("daily");
+    const posts = api.getAllMdxData("algorithm");
     return {
         props: {
             data: posts,

@@ -3,13 +3,12 @@ import styled from "styled-components";
 import * as api from "../lib/api";
 import colors from "../lib/color";
 import Link from "next/link";
-import * as storage from "../lib/storage";
 
 const Container = styled.div`
     width: 100%;
 `;
 
-const Title = styled.div`
+const Label = styled.div`
     font-size: 16px;
     font-weight: bold;
     color: ${colors.black};
@@ -34,28 +33,23 @@ const PostTitle = styled.a`
 
 interface Props {
     history: api.MdxData[];
+    onClick: (id: string) => void;
 }
 
-const handleClick = (id: string) => {
-    const techHistory = storage.getTechHistory();
-    storage.setTechHistory([...new Set([id, ...techHistory])]);
-};
-
 const HistoryTable: React.FC<Props> = (props) => {
-    const { history } = props;
-
+    const { history, onClick } = props;
     return (
         <Container>
-            <Title>History</Title>
+            <Label>History</Label>
             <CustomUl>
-                {history.map((data) => {
+                {history.map((data, i) => {
                     return (
                         <>
-                            <CustomLi>
-                                <Link href={`/tech/${data.data.id}/detail`} passHref legacyBehavior>
+                            <CustomLi key={"history-" + i}>
+                                <Link href={data.href} passHref legacyBehavior>
                                     <PostTitle
                                         onClick={() => {
-                                            handleClick(data.data.id + "");
+                                            onClick(data.data.id + "");
                                         }}
                                     >
                                         {data.data.title}

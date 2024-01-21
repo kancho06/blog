@@ -167,7 +167,12 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
                         />
                     </TableWrapper>
                     <HistoryTableWrapper>
-                        <HistoryTable history={sortedHistory.slice(0, 7)} />
+                        <HistoryTable
+                            history={sortedHistory.slice(0, 7)}
+                            onClick={(id) => {
+                                handleClick(id);
+                            }}
+                        />
                     </HistoryTableWrapper>
                 </ResultArea>
             </Container>
