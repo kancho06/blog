@@ -14,7 +14,7 @@ interface Props {
     className: string;
 }
 
-type PrismLib = typeof PrismRR & typeof Prism //
+type PrismLib = typeof PrismRR & typeof Prism; //
 
 const CodeBlock: React.FC<Props> = (props) => {
     const { children, className } = props;
