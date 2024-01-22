@@ -40,6 +40,7 @@ const menuItems: MenuItem[] = [
 const MainLayout: React.FC<Props> = (props) => {
     const { children, router } = props;
     const isProd = config.environment === "production";
+    //TODO: add darkMode & japanese(korean)
     return (
         <Container>
             {!isProd && <EnvLabel>ENV: {config.environment}</EnvLabel>}

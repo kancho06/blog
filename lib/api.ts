@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 export interface FrontMatter {
     id: number;
     title: string;
+    type: DataType;
     category: TechCategory | DailyCategory;
     seriesId: number | null;
     seriesTitle: string | null;
@@ -64,6 +65,7 @@ export function getAllMdxData(type: DataType): MdxData[] {
                 data: {
                     id: data.id,
                     title: data.title,
+                    type: type,
                     category: data.category,
                     seriesId: data.seriesId ? data.seriesId : null,
                     seriesTitle: data.seriesTitle ? data.seriesTitle : null,
@@ -118,6 +120,7 @@ export async function getDetailMdxData(type: DataType, id: string): Promise<Deta
         data: {
             id: data.id,
             title: data.title,
+            type: type,
             category: data.category,
             seriesId: data.seriesId ? data.seriesId : null,
             seriesTitle: data.seriesTitle ? data.seriesTitle : null,
