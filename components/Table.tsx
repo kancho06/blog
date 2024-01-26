@@ -16,7 +16,7 @@ const Label = styled.div`
 `;
 
 const CustomUl = styled.ul`
-    padding: 10px;
+    padding: 20px;
     margin-top: 0;
 `;
 
@@ -61,10 +61,10 @@ const AuthorArea = styled.div`
     margin-top: 5px;
 `;
 
-const Author = styled.div`
-    font-size: 13px;
-    color: ${colors.grey};
-`;
+// const Author = styled.div`
+//     font-size: 13px;
+//     color: ${colors.grey};
+// `;
 
 const CreatedAt = styled.div`
     font-size: 13px;
@@ -103,13 +103,13 @@ const Table: React.FC<Props> = (props) => {
                                             {d.data.title}
                                         </Title>
                                     </Link>
-                                    <Category>{d.data.category}</Category>
+                                    <Category>{d.data.category ? d.data.category : ""}</Category>
                                 </TitleArea>
                                 <AuthorArea>
-                                    <Author>{d.data.author}&nbsp;//&nbsp;</Author>
+                                    {/*<Author>{d.data.author ? d.data.author : ""}&nbsp;//&nbsp;</Author>*/}
                                     <CreatedAt>{dayjs(d.data.createdAt).format("YYYY.MM.DD")}</CreatedAt>
                                 </AuthorArea>
-                                <DescriptionArea>{d.data.description}</DescriptionArea>
+                                <DescriptionArea>{d.data.description ? d.data.description : ""}</DescriptionArea>
                                 <Line />
                             </CustomLi>
                         </>

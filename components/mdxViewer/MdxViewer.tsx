@@ -12,7 +12,7 @@ interface Props {
 
 const mdxComponents: MDXComponents = {
     code: CodeBlock,
-    img: (props: any) => <Image {...props} src={url.resolvePath(props.src)} />,
+    img: (props: any) => <Image {...props} src={url.resolvePath(props.src)} alt={props.alt} />,
 };
 
 const MdxViewer: React.FC<Props> = (props) => {

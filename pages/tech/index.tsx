@@ -11,6 +11,7 @@ import HistoryTable from "../../components/HistoryTable";
 import SearchInput from "../../components/SearchInput";
 import useDebounce from "../../lib/useDebounce";
 import colors from "../../lib/color";
+import CardList from "../../components/CardList";
 
 const Container = styled.div`
     width: 100%;
@@ -20,8 +21,10 @@ const Container = styled.div`
 const ResultArea = styled.div`
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    gap: 10px;
 `;
 
 const TableWrapper = styled.div`
@@ -30,6 +33,19 @@ const TableWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`;
+
+const Row = styled.div<{
+    isFlex?: boolean;
+}>`
+    width: 100%;
+    display: ${(props) => (props.isFlex ? "flex" : "unset")};
+`;
+
+const CardListLabel = styled.div`
+    font-size: 25px;
+    font-weight: bold;
+    color: ${colors.black};
 `;
 
 const HistoryTableWrapper = styled.div`
@@ -87,7 +103,7 @@ const handleClick = (id: string) => {
     storage.setTechHistory([...new Set([id, ...techHistory])]);
 };
 
-const Index: PageComponent<api.MdxData[]> = (props) => {
+const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
@@ -97,21 +113,30 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
         },
     });
     const debouncedSearchParam = useDebounce(pageParam.searchParam.keyword, 200);
-    const targetData = (() => {
+    const targetPosts = (() => {
         if (!pageParam.searchParam.keyword.length) {
-            return data;
+            return data.posts;
         }
-        return data.filter((d) => {
+        return data.posts.filter((d) => {
             const titleLowerCase = d.data.title.toLowerCase();
-            const seriesLowerCase = d.data.seriesTitle ? d.data.seriesTitle.toLowerCase() : "";
             const keywordLowerCase = pageParam.searchParam.keyword.toLowerCase();
-            return titleLowerCase.includes(keywordLowerCase) || seriesLowerCase.includes(keywordLowerCase);
+            return titleLowerCase.includes(keywordLowerCase);
         });
     })();
-    const totalCount = targetData.length;
-    const slicedData = targetData.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
+    const targetSeries = (() => {
+        if (!pageParam.searchParam.keyword.length) {
+            return data.series;
+        }
+        return data.series.filter((s) => {
+            const titleLowerCase = s.data.seriesTitle ? s.data.seriesTitle.toLowerCase() : "";
+            const keywordLowerCase = pageParam.searchParam.keyword.toLowerCase();
+            return titleLowerCase.includes(keywordLowerCase);
+        });
+    })();
+    const totalCount = targetPosts.length;
+    const slicedData = targetPosts.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
     const historyIds = storage.getTechHistory().slice(0, 10);
-    const history = data.filter((d) => {
+    const history = data.posts.filter((d) => {
         return historyIds.includes(d.data.id + "");
     });
     const sortedHistory: api.MdxData[] = [];
@@ -147,33 +172,39 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
                     </SearchInputWrapper>
                 </SearchArea>
                 <ResultArea>
-                    <TableWrapper>
-                        <Table
-                            label={tableLabel}
-                            data={slicedData}
-                            onClick={(id) => {
-                                handleClick(id);
-                            }}
-                        />
-                        <Pager
-                            totalCount={totalCount}
-                            param={pageParam}
-                            onChange={(param) => {
-                                setPageParam({
-                                    ...pageParam,
-                                    ...param,
-                                });
-                            }}
-                        />
-                    </TableWrapper>
-                    <HistoryTableWrapper>
-                        <HistoryTable
-                            history={sortedHistory.slice(0, 7)}
-                            onClick={(id) => {
-                                handleClick(id);
-                            }}
-                        />
-                    </HistoryTableWrapper>
+                    <Row>
+                        <CardListLabel>Series</CardListLabel>
+                        <CardList label="" posts={targetSeries} isSeries />
+                    </Row>
+                    <Row isFlex={true}>
+                        <TableWrapper>
+                            <Table
+                                label={tableLabel}
+                                data={slicedData}
+                                onClick={(id) => {
+                                    handleClick(id);
+                                }}
+                            />
+                            <Pager
+                                totalCount={totalCount}
+                                param={pageParam}
+                                onChange={(param) => {
+                                    setPageParam({
+                                        ...pageParam,
+                                        ...param,
+                                    });
+                                }}
+                            />
+                        </TableWrapper>
+                        <HistoryTableWrapper>
+                            <HistoryTable
+                                history={sortedHistory.slice(0, 7)}
+                                onClick={(id) => {
+                                    handleClick(id);
+                                }}
+                            />
+                        </HistoryTableWrapper>
+                    </Row>
                 </ResultArea>
             </Container>
         </MainLayout>
@@ -182,9 +213,14 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
 
 export const getStaticProps: GetStaticProps = async () => {
     const posts = api.getAllMdxData("tech");
+    const series = api.getAllSeriesMdxData("tech");
+    console.info("series => ", series);
     return {
         props: {
-            data: posts,
+            data: {
+                posts,
+                series,
+            },
         },
     };
 };

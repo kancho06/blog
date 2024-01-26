@@ -28,8 +28,7 @@ const Detail: PageComponent<api.DetailMdxData> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const techFilePaths = api.getPaths(api.ALGORITHM_FILE_PATH);
-    const paths = techFilePaths.map((path) => path.replace(/\.mdx?$/, "")).map((id) => ({ params: { id } }));
+    const paths = api.getStaticAllMdxPaths("algorithm");
     return {
         paths,
         fallback: false,

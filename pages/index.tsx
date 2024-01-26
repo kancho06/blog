@@ -22,8 +22,9 @@ const CardListArea = styled.div`
 `;
 
 const AreaTitle = styled.div`\
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
+    margin-left: 10px;
 `;
 
 const StyledImg = styled.img`

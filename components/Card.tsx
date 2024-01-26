@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 const Container = styled.div`
     width: 200px;
-    height: 240px;
+    height: 300px;
     position: relative;
 `;
 
@@ -18,8 +18,10 @@ const Title = styled.div`
     color: ${colors.black};
     font-weight: bold;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
 `;
 
 const Category = styled.div`
@@ -79,6 +81,8 @@ const CardUnderlay = styled.div`
 `;
 interface Props {
     post: MdxData;
+    isSeries: boolean;
+    disabled: boolean;
 }
 
 const mouseMoveHandler = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, aRef: React.RefObject<HTMLAnchorElement>, underlayRef: React.RefObject<HTMLDivElement>) => {
@@ -98,7 +102,7 @@ const mouseLeaveHandler = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, 
 };
 
 const Card: React.FC<Props> = (props) => {
-    const { post } = props;
+    const { post, isSeries, disabled } = props;
     const aRef = useRef<HTMLAnchorElement>(null);
     const underlayRef = useRef<HTMLDivElement>(null);
     return (
@@ -110,9 +114,18 @@ const Card: React.FC<Props> = (props) => {
                 onMouseLeave={(event) => {
                     mouseLeaveHandler(event, aRef, underlayRef);
                 }}
+                onClick={() => {
+                    if (disabled) {
+                        return;
+                    }
+                    if (!aRef.current) {
+                        return;
+                    }
+                    aRef.current.click();
+                }}
             />
             <CardLink href={post.href} ref={aRef}>
-                <Title>{post.data.title}</Title>
+                <Title>{isSeries ? post.data.seriesTitle : post.data.title}</Title>
                 <Category>{post.data.category}</Category>
                 <CreatedAt>{dayjs(post.data.createdAt).format("YYYY-MM-DD")}</CreatedAt>
             </CardLink>
