@@ -265,3 +265,48 @@ export function getStaticAllMdxPaths(type: DataType) {
     const filePaths = getPaths(dir);
     return filePaths.map((path) => path.replace(/\.mdx?$/, "")).map((id) => ({ params: { id } }));
 }
+
+export function getStaticAllSeriesMdxPaths() {
+    const paths: { params: { id: string; type: DataType } }[] = [];
+    ["tech", "algorithm"].forEach((type: DataType) => {
+        const dir = (() => {
+            if (type === "tech") {
+                return TECH_FILE_PATH;
+            }
+            return ALGORITHM_FILE_PATH;
+        })();
+        const filePaths = getPaths(dir);
+        const src = filePaths.map((filePath) => {
+            const src = fs.readFileSync(path.join(dir, filePath), {
+                encoding: "utf8",
+            });
+            return matter(src);
+        });
+        const seriesSrc = src.filter((s) => {
+            return !!(s.data.seriesId && s.data.seriesTitle);
+        });
+        if (!seriesSrc.length) {
+            return [];
+        }
+        // 중복제거를 하기전에 정렬하여 가장 첫번째 게시물이 남도록 유도한다.
+        const sorted = seriesSrc.sort((a, b) => {
+            const aCreatedAt = dayjs(a.data.createdAt).valueOf();
+            const bCreatedAt = dayjs(b.data.createdAt).valueOf();
+            if (aCreatedAt !== bCreatedAt) {
+                return aCreatedAt - bCreatedAt;
+            }
+            return a.data.id - b.data.id;
+        });
+        const series = [...new Map(sorted.map((m) => [m.data.seriesId, m])).values()];
+
+        series.forEach((s) => {
+            paths.push({
+                params: {
+                    id: s.data.seriesId.toString(),
+                    type,
+                },
+            });
+        });
+    });
+    return paths;
+}

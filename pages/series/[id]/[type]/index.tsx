@@ -99,8 +99,9 @@ const Index: PageComponent<api.MdxData[]> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+    const paths = api.getStaticAllSeriesMdxPaths();
     return {
-        paths: [],
+        paths,
         fallback: false,
     };
 };
