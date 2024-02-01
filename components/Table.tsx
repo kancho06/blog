@@ -1,5 +1,5 @@
 import React from "react";
-import * as api from "../lib/api";
+import { MdxData } from "../lib/mdx";
 import styled from "styled-components";
 import colors from "../lib/color";
 import Link from "next/link";
@@ -79,7 +79,7 @@ const DescriptionArea = styled.div`
 
 interface Props {
     label: string;
-    data: api.MdxData[];
+    data: MdxData[];
     onClick: (id: string) => void;
 }
 

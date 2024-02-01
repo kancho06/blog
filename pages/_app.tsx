@@ -48,6 +48,35 @@ const GlobalStyle = createGlobalStyle`
     a {
         color: ${colors.blue};
     }
+    // mdx anchor
+    a.anchor {
+        position: absolute;
+        margin-left: -1em;
+        padding-right: 0.5em;
+        padding-left: 0.2em;
+        cursor: pointer;
+        visibility: hidden;
+    }
+    a.anchor:after {
+        color: ${colors.grey};
+        content: "#";
+    }
+    a.anchor:hover,*:hover > a.anchor {
+        visibility: visible;
+    }
+
+    // mdx codeBlock title
+    .rehype-code-title {
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+        padding: 5px 0 5px 10px;
+        font-size: 16px;
+        line-height: 25px;
+        font-weight: bold;
+        background-color: rgb(110, 114, 123);
+        margin-bottom: -1em;
+        color: black;
+    }
 `;
 
 class MyApp extends App<{ appProps: AppProps }> {

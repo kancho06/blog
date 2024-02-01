@@ -21,8 +21,8 @@ const MdxViewer: React.FC<Props> = (props) => {
         <>
             <style jsx>
                 {`
-                    .markdown-body {
-                        padding: 20px;
+                    .markdown-light-body {
+                        padding-left: 20px;
                     }
                 `}
             </style>

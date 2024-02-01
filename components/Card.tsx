@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { MdxData } from "../lib/api";
+import { MdxData } from "../lib/mdx";
 import colors from "../lib/color";
 import Link from "next/link";
 import dayjs from "dayjs";
 
 const Container = styled.div`
-    width: 200px;
+    width: 250px;
     height: 300px;
     position: relative;
 `;

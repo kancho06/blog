@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import * as api from "../lib/api";
+import { MdxData } from "../lib/mdx";
 import colors from "../lib/color";
 import Link from "next/link";
 
@@ -32,7 +32,7 @@ const PostTitle = styled.a`
 `;
 
 interface Props {
-    history: api.MdxData[];
+    history: MdxData[];
     onClick: (id: string) => void;
 }
 

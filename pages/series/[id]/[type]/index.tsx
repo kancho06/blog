@@ -1,6 +1,7 @@
 import { PageComponent } from "../../../../types/page";
 import { GetStaticPaths, GetStaticProps } from "next";
 import * as api from "../../../../lib/api";
+import * as mdx from "../../../../lib/mdx";
 import styled from "styled-components";
 import MainLayout from "../../../../layout/MainLayout";
 import CardList from "../../../../components/CardList";
@@ -60,7 +61,7 @@ type PageParam = {
     offset: number;
 };
 
-const Index: PageComponent<api.MdxData[]> = (props) => {
+const Index: PageComponent<mdx.MdxData[]> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
@@ -114,7 +115,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             },
         };
     }
-    const posts = api.getDetailSeriesMdxData(context.params.type as api.DataType, context.params.id as string);
+    const posts = api.getDetailSeriesMdxData(context.params.type as mdx.DataType, context.params.id as string);
     return {
         props: {
             data: posts,

@@ -5,6 +5,7 @@ import MainLayout from "../../layout/MainLayout";
 import Table from "../../components/Table";
 import Pager from "../../components/Pager";
 import { useState } from "react";
+import * as mdx from "../../lib/mdx";
 import * as api from "../../lib/api";
 import * as storage from "../../lib/storage";
 import HistoryTable from "../../components/HistoryTable";
@@ -103,7 +104,7 @@ const handleClick = (id: string) => {
     storage.setTechHistory([...new Set([id, ...techHistory])]);
 };
 
-const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (props) => {
+const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[] }> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
@@ -139,7 +140,7 @@ const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (p
     const history = data.posts.filter((d) => {
         return historyIds.includes(d.data.id + "");
     });
-    const sortedHistory: api.MdxData[] = [];
+    const sortedHistory: mdx.MdxData[] = [];
     historyIds.forEach((_, i) => {
         history.forEach((d) => {
             if (historyIds[i] === d.data.id + "") {
@@ -214,7 +215,6 @@ const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (p
 export const getStaticProps: GetStaticProps = async () => {
     const posts = api.getAllMdxData("tech");
     const series = api.getAllSeriesMdxData("tech");
-    console.info("series => ", series);
     return {
         props: {
             data: {

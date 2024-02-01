@@ -2,6 +2,7 @@ import styled from "styled-components";
 import colors from "../../lib/color";
 import { PageComponent } from "../../types/page";
 import * as api from "../../lib/api";
+import * as mdx from "../../lib/mdx";
 import { GetStaticProps } from "next";
 import { useState } from "react";
 import useDebounce from "../../lib/useDebounce";
@@ -103,7 +104,7 @@ const handleClick = (id: string) => {
     storage.setAlgorithmHistory([...new Set([id, ...techHistory])]);
 };
 
-const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (props) => {
+const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[] }> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
@@ -139,7 +140,7 @@ const Index: PageComponent<{ posts: api.MdxData[]; series: api.MdxData[] }> = (p
     const history = data.posts.filter((d) => {
         return historyIds.includes(d.data.id + "");
     });
-    const sortedHistory: api.MdxData[] = [];
+    const sortedHistory: mdx.MdxData[] = [];
     historyIds.forEach((_, i) => {
         history.forEach((d) => {
             if (historyIds[i] === d.data.id + "") {

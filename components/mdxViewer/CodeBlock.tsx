@@ -6,8 +6,18 @@ import styled from "styled-components";
 import "prismjs/components/prism-typescript.js";
 import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-java.js";
+import CopyButton from "./CopyButton";
 
-const Container = styled.div``;
+const Container = styled.div`
+    width: 100%;
+    position: relative;
+`;
+
+const CodeButtonWrapper = styled.div`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+`;
 
 interface Props {
     children: string;
@@ -23,7 +33,7 @@ const CodeBlock: React.FC<Props> = (props) => {
         <Container>
             <Highlight prism={Prism as PrismLib} theme={themes.oneDark} code={children} language={language as Language}>
                 {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                    <pre className={className} style={{ ...style, borderRadius: "8px", padding: "10px" }}>
+                    <pre className={className} style={{ ...style, borderRadius: "0 0 8px 8px", padding: "10px", minHeight: "50px" }}>
                         {/*
                             last token is empty line
                         */}
@@ -34,6 +44,9 @@ const CodeBlock: React.FC<Props> = (props) => {
                                 ))}
                             </div>
                         ))}
+                        <CodeButtonWrapper>
+                            <CopyButton text={children} />
+                        </CodeButtonWrapper>
                     </pre>
                 )}
             </Highlight>

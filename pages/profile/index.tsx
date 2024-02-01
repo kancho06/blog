@@ -40,7 +40,7 @@ const Index: PageComponent<null> = (props) => {
                         Web / App Engineer
                     </Title>
                     <Title fontSize={40} paddingLeft={80}>
-                        Jaesung LEE
+                        Jaesung Lee
                     </Title>
                     <Line />
                 </Summary>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
-import { MdxData } from "../lib/api";
+import { MdxData } from "../lib/mdx";
 import colors from "../lib/color";
 
 const Container = styled.div`

@@ -6,7 +6,7 @@ import MainLayout from "../layout/MainLayout";
 import CardList from "../components/CardList";
 import { GetStaticProps } from "next";
 import * as api from "../lib/api";
-import { MdxData } from "../lib/api";
+import { MdxData } from "../lib/mdx";
 
 const Container = styled.div`
     width: 100%;
@@ -35,8 +35,8 @@ const StyledImg = styled.img`
 const Index: PageComponent<{ tech: MdxData[]; algorithm: MdxData[] }> = (props) => {
     const { router, data } = props;
     const { tech, algorithm } = data;
-    const recentTechData = tech.slice(0, 5);
-    const recentAlgorithmData = algorithm.slice(0, 5);
+    const recentTechData = tech.slice(0, 6);
+    const recentAlgorithmData = algorithm.slice(0, 6);
     return (
         <MainLayout router={router}>
             <Container>
