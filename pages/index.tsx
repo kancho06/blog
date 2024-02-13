@@ -7,10 +7,12 @@ import CardList from "../components/CardList";
 import { GetStaticProps } from "next";
 import * as api from "../lib/api";
 import { MdxData } from "../lib/mdx";
+import { Seo } from "../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 20px;
+    margin-top: 80px;
+    padding-left: 10px;
 `;
 
 const CardListArea = styled.div`
@@ -52,13 +54,20 @@ const Index: PageComponent<{ tech: MdxData[]; algorithm: MdxData[] }> = (props) 
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const techData = api.getAllMdxData("tech");
-    const algorithmData = api.getAllMdxData("algorithm");
+    const seo: Seo = {
+        title: "kancho's blog",
+        description: "welcome to kancho's blog",
+        url: "https://kancho06.gihub.io/blog",
+        imgPath: "",
+    };
+    const tech = api.getAllMdxData("tech");
+    const algorithm = api.getAllMdxData("algorithm");
     return {
         props: {
             data: {
-                tech: techData,
-                algorithm: algorithmData,
+                seo,
+                tech,
+                algorithm,
             },
         },
     };

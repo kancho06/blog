@@ -13,10 +13,12 @@ import Table from "../../components/Table";
 import Pager from "../../components/Pager";
 import HistoryTable from "../../components/HistoryTable";
 import CardList from "../../components/CardList";
+import { Seo } from "../../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 20px;
+    margin-top: 80px;
+    padding-left: 20px;
 `;
 
 const ResultArea = styled.div`
@@ -213,11 +215,18 @@ const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[] }> = (p
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+    const seo: Seo = {
+        title: "Algorithm Board",
+        description: "アルゴリズム解いながら学んだことを書きます。",
+        url: "https://kancho06.gihub.io/blog/algorithm",
+        imgPath: "",
+    };
     const posts = api.getAllMdxData("algorithm");
     const series = api.getAllSeriesMdxData("algorithm");
     return {
         props: {
             data: {
+                seo,
                 posts,
                 series,
             },

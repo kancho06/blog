@@ -9,10 +9,11 @@ import TableOfContent from "../../../components/mdxViewer/TableOfContent";
 import { useEffect, useRef, useState } from "react";
 import colors from "../../../lib/color";
 import dayjs from "dayjs";
+import { Seo } from "../../../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 0;
+    margin-top: 80px;
     padding: 0 20px;
 `;
 
@@ -65,7 +66,7 @@ const TOCWrapper = styled.div`
     top: 330px;
 `;
 
-const Detail: PageComponent<mdx.DetailMdxData> = (props) => {
+const Detail: PageComponent<{ post: mdx.DetailMdxData }> = (props) => {
     const { router, data } = props;
     const [tocWidth, setTocWidth] = useState<number>(0);
     const tocWrapperRef = useRef<HTMLDivElement>(null);
@@ -78,17 +79,17 @@ const Detail: PageComponent<mdx.DetailMdxData> = (props) => {
         <MainLayout router={router}>
             <Container>
                 <TOCWrapper ref={tocWrapperRef}>
-                    <TableOfContent content={data.content} />
+                    <TableOfContent content={data.post.content} />
                 </TOCWrapper>
                 <InfoWrapper>
-                    <Title>{data.data.title}</Title>
+                    <Title>{data.post.data.title}</Title>
                     <DetailInfoWrapper>
-                        <Info>{dayjs(data.data.createdAt).format("YYYY.MM.DD")}</Info>
+                        <Info>{dayjs(data.post.data.createdAt).format("YYYY.MM.DD")}</Info>
                     </DetailInfoWrapper>
                     <Line />
                 </InfoWrapper>
                 <MdxWrapper id="mdx-wrapper" tocWidth={tocWidth}>
-                    <MdxViewer>{data.mdxSrc}</MdxViewer>
+                    <MdxViewer>{data.post.mdxSrc}</MdxViewer>
                 </MdxWrapper>
             </Container>
         </MainLayout>
@@ -107,14 +108,26 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
     if (!context.params || !context.params.id) {
         return {
             props: {
-                data: null,
+                data: {
+                    seo: null,
+                    post: null,
+                },
             },
         };
     }
     const post = await api.getDetailMdxData("algorithm", context.params.id as string);
+    const seo: Seo = {
+        title: post.data.title,
+        description: post.data.description,
+        url: `https://kancho06.gihub.io/blog/${post.data.id}/algorithm`,
+        imgPath: "",
+    };
     return {
         props: {
-            data: post,
+            data: {
+                seo,
+                post,
+            },
         },
     };
 };

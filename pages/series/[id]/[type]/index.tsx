@@ -9,10 +9,12 @@ import Table from "../../../../components/Table";
 import Pager from "../../../../components/Pager";
 import { useState } from "react";
 import colors from "../../../../lib/color";
+import { Seo } from "../../../../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 20px;
+    margin-top: 80px;
+    padding-left: 20px;
     display: flex;
     gap: 120px;
 `;
@@ -61,28 +63,28 @@ type PageParam = {
     offset: number;
 };
 
-const Index: PageComponent<mdx.MdxData[]> = (props) => {
+const Index: PageComponent<{ posts: mdx.MdxData[] }> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
         offset: 0,
     });
-    const totalCount = data.length;
-    const slicedData = data.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
+    const totalCount = data.posts.length;
+    const slicedData = data.posts.slice(pageParam.offset, pageParam.offset + PAGE_UNIT);
     return (
         <MainLayout router={router}>
             <Container>
                 <CardWrapper>
-                    <CardList label="" posts={[data[0]]} disabled isSeries />
+                    <CardList label="" posts={[data.posts[0]]} disabled isSeries />
                 </CardWrapper>
                 <TableWrapper>
                     <DescriptionWrapper>
-                        <Description>{data[0].data.description}</Description>
+                        <Description>{data.posts[0].data.description}</Description>
                         <CreatedAt>
-                            {data[0].data.createdAt}&nbsp;({totalCount}&nbsp;Posts)
+                            {data.posts[0].data.createdAt}&nbsp;({totalCount}&nbsp;Posts)
                         </CreatedAt>
                     </DescriptionWrapper>
-                    <Table label={data[0].data.seriesTitle ?? ""} data={slicedData} onClick={() => {}} />
+                    <Table label={data.posts[0].data.seriesTitle ?? ""} data={slicedData} onClick={() => {}} />
                     <Pager
                         totalCount={totalCount}
                         param={pageParam}
@@ -111,14 +113,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
     if (!context.params || !context.params.id || !context.params.type) {
         return {
             props: {
-                data: null,
+                data: {
+                    seo: null,
+                    posts: null,
+                },
             },
         };
     }
     const posts = api.getDetailSeriesMdxData(context.params.type as mdx.DataType, context.params.id as string);
+    const seo: Seo = {
+        title: posts[0].data.seriesTitle || posts[0].data.title,
+        description: posts[0].data.description,
+        url: `https://kancho06.gihub.io/blog/${posts[0].data.seriesId}/${posts[0].data.type}/series`,
+        imgPath: "",
+    };
     return {
         props: {
-            data: posts,
+            data: {
+                seo,
+                posts,
+            },
         },
     };
 };

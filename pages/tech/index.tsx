@@ -13,10 +13,12 @@ import SearchInput from "../../components/SearchInput";
 import useDebounce from "../../lib/useDebounce";
 import colors from "../../lib/color";
 import CardList from "../../components/CardList";
+import { Seo } from "../../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 20px;
+    margin-top: 80px;
+    padding-left: 20px;
 `;
 
 const ResultArea = styled.div`
@@ -104,7 +106,7 @@ const handleClick = (id: string) => {
     storage.setTechHistory([...new Set([id, ...techHistory])]);
 };
 
-const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[] }> = (props) => {
+const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[]; pageTitle: string }> = (props) => {
     const { router, data } = props;
     const [pageParam, setPageParam] = useState<PageParam>({
         unit: PAGE_UNIT,
@@ -213,11 +215,18 @@ const Index: PageComponent<{ posts: mdx.MdxData[]; series: mdx.MdxData[] }> = (p
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+    const seo: Seo = {
+        title: "Tech Board",
+        description: "開発しながら扱った技術の情報や学んだことを書きます。",
+        url: "https://kancho06.gihub.io/blog/tech",
+        imgPath: "",
+    };
     const posts = api.getAllMdxData("tech");
     const series = api.getAllSeriesMdxData("tech");
     return {
         props: {
             data: {
+                seo,
                 posts,
                 series,
             },

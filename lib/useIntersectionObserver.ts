@@ -21,14 +21,18 @@ export const useIntersectionObserver = (setActiveId: React.Dispatch<React.SetSta
             });
 
             const getIndexFromId = (id: string) => headingElements.findIndex((heading) => heading.id === id);
-
-            const sortedVisibleHeadings = visibleHeadings.sort((a, b) => getIndexFromId(a.target.id) - getIndexFromId(b.target.id));
-            const visibleFirstIndex = getIndexFromId(sortedVisibleHeadings[0].target.id);
-            // 제일 상단의 목차가 보이지 않는다면 현재 보이는 목차의 하나 전 목차를 액티브한다
-            if (visibleFirstIndex === 0) {
-                setActiveId(sortedVisibleHeadings[0].target.id);
+            // 목차가 아무것도 보이지 않는다면 마지막 목차를 액티브
+            if (!visibleHeadings.length) {
+                setActiveId(headingElements[headingElements.length - 1].id);
             } else {
-                setActiveId(headingElements[visibleFirstIndex - 1].id);
+                const sortedVisibleHeadings = visibleHeadings.sort((a, b) => getIndexFromId(a.target.id) - getIndexFromId(b.target.id));
+                const visibleFirstIndex = getIndexFromId(sortedVisibleHeadings[0].target.id);
+                // 제일 상단의 목차가 보이지 않는다면 현재 보이는 목차의 하나 전 목차를 액티브한다
+                if (visibleFirstIndex === 0) {
+                    setActiveId(sortedVisibleHeadings[0].target.id);
+                } else {
+                    setActiveId(headingElements[visibleFirstIndex - 1].id);
+                }
             }
 
             // if (visibleHeadings.length === 1) {
@@ -48,7 +52,6 @@ export const useIntersectionObserver = (setActiveId: React.Dispatch<React.SetSta
             // }
         };
         const observer = new IntersectionObserver(callback, {
-            threshold: 0.4,
             rootMargin: "-60px 0px 0px 0px",
         });
         const headingElements = Array.from(document.querySelectorAll("h1, h2, h3, h4"));

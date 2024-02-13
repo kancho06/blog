@@ -2,10 +2,13 @@ import { PageComponent } from "../../types/page";
 import styled from "styled-components";
 import MainLayout from "../../layout/MainLayout";
 import colors from "../../lib/color";
+import { GetStaticProps } from "next";
+import { Seo } from "../../types/seo";
 
 const Container = styled.div`
     width: 100%;
-    margin: 80px 0 0 20px;
+    margin-top: 80px;
+    padding-left: 20px;
 `;
 
 const Summary = styled.div`
@@ -47,6 +50,22 @@ const Index: PageComponent<null> = (props) => {
             </Container>
         </MainLayout>
     );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+    const seo: Seo = {
+        title: "Profile",
+        description: "",
+        url: "https://kancho06.gihub.io/blog/profile",
+        imgPath: "",
+    };
+    return {
+        props: {
+            data: {
+                seo,
+            },
+        },
+    };
 };
 
 export default Index;

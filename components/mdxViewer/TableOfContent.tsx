@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import colors from "../../lib/color";
-import Link from "next/link";
 import { useIntersectionObserver } from "../../lib/useIntersectionObserver";
 
 const Container = styled.div`
@@ -23,7 +22,9 @@ const Label = styled.div`
     margin-bottom: 15px;
 `;
 
-const Title = styled.div<{
+const CustomUl = styled.div``;
+
+const Title = styled.li<{
     fontSize: number;
     active: boolean;
     paddingLeft: number;
@@ -34,6 +35,7 @@ const Title = styled.div<{
     padding-left: ${(props) => props.paddingLeft}px;
     cursor: pointer;
     margin-bottom: 10px;
+    list-style-type: none;
     :hover {
         color: ${colors.red};
     }
@@ -74,22 +76,30 @@ const TableOfContent: React.FC<Props> = (props) => {
     return (
         <Container>
             <Label>Table of Contents</Label>
-            {headings?.map((h, i) => {
-                return (
-                    <Link key={i} href={"#" + h.link} passHref legacyBehavior>
+            <CustomUl>
+                {headings?.map((h, i) => {
+                    return (
                         <Title
+                            key={i}
                             fontSize={16}
                             active={activeId === h.link}
                             paddingLeft={getPaddingLeft(h.indent!)}
                             onClick={() => {
                                 setActivId(h.link);
+                                const target = document.getElementById(h.link);
+                                if (target) {
+                                    // menu margin
+                                    const yOffset = -60;
+                                    const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                    window.scrollTo({ top: y, behavior: "smooth" });
+                                }
                             }}
                         >
                             {h.text}
                         </Title>
-                    </Link>
-                );
-            })}
+                    );
+                })}
+            </CustomUl>
         </Container>
     );
 };

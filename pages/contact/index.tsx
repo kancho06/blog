@@ -1,6 +1,8 @@
 import { PageComponent } from "../../types/page";
 import styled from "styled-components";
 import MainLayout from "../../layout/MainLayout";
+import { GetStaticProps } from "next";
+import { Seo } from "../../types/seo";
 
 const Container = styled.div`
     width: 100%;
@@ -14,6 +16,22 @@ const Index: PageComponent<null> = (props) => {
             <Container></Container>
         </MainLayout>
     );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+    const seo: Seo = {
+        title: "Contact",
+        description: "",
+        url: "https://kancho06.gihub.io/blog/contact",
+        imgPath: "",
+    };
+    return {
+        props: {
+            data: {
+                seo,
+            },
+        },
+    };
 };
 
 export default Index;

@@ -90,7 +90,7 @@ class MyApp extends App<{ appProps: AppProps }> {
         const { Component, pageProps, router } = this.props;
         return (
             <>
-                <Head />
+                <Head data={pageProps} />
                 <GlobalStyle />
                 <Component {...pageProps} router={router} />
             </>
