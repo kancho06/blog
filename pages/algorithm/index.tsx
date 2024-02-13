@@ -218,7 +218,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const seo: Seo = {
         title: "Algorithm Board",
         description: "アルゴリズム解いながら学んだことを書きます。",
-        url: "https://kancho06.gihub.io/blog/algorithm",
+        url: "https://kancho06.github.io/blog/algorithm",
         imgPath: "",
     };
     const posts = api.getAllMdxData("algorithm");

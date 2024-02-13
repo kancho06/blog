@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const seo: Seo = {
         title: "kancho's blog",
         description: "welcome to kancho's blog",
-        url: "https://kancho06.gihub.io/blog",
+        url: "https://kancho06.github.io/blog",
         imgPath: "",
     };
     const tech = api.getAllMdxData("tech");

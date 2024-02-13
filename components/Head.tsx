@@ -10,11 +10,12 @@ interface Props {
 const defaultSeo: Seo = {
     title: "kancho's blog",
     description: "welcome kancho's blog",
-    url: "https://kancho06.gihub.io/blog",
+    url: "https://kancho06.github.io/blog",
     imgPath: "",
 };
 
 const Head: React.FC<Props> = (props): JSX.Element => {
+    console.info("seo =->", props.data.data.seo);
     const seo: Seo = props.data.data.seo || defaultSeo;
     return (
         <NextHead>
@@ -24,7 +25,7 @@ const Head: React.FC<Props> = (props): JSX.Element => {
             <NextSeo
                 title={seo.title}
                 description={seo.description}
-                canonical="https://kancho06.gihub.io/blog"
+                canonical="https://kancho06.github.io/blog"
                 openGraph={{
                     url: seo.url,
                     title: seo.title,

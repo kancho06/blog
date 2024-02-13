@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const seo: Seo = {
         title: "Contact",
         description: "",
-        url: "https://kancho06.gihub.io/blog/contact",
+        url: "https://kancho06.github.io/blog/contact",
         imgPath: "",
     };
     return {

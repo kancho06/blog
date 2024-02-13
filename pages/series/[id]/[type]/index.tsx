@@ -124,7 +124,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const seo: Seo = {
         title: posts[0].data.seriesTitle || posts[0].data.title,
         description: posts[0].data.description,
-        url: `https://kancho06.gihub.io/blog/${posts[0].data.seriesId}/${posts[0].data.type}/series`,
+        url: `https://kancho06.github.io/blog/series/${posts[0].data.seriesId}/${posts[0].data.type}`,
         imgPath: "",
     };
     return {

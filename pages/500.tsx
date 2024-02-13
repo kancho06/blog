@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { GetStaticProps } from "next";
-import MainLayout from "../layout/MainLayout";
 import { PageComponent } from "../types/page";
+import styled from "styled-components";
+import MainLayout from "../layout/MainLayout";
+import { GetStaticProps } from "next";
 import { Seo } from "../types/seo";
 
 const Container = styled.div`
@@ -14,12 +14,12 @@ const Container = styled.div`
 
 const CustomH1 = styled.h1``;
 
-const Custom404: PageComponent<null> = (props) => {
+const Custom500: PageComponent<null> = (props) => {
     const { router } = props;
     return (
         <MainLayout router={router}>
             <Container>
-                <CustomH1>Page Not Found</CustomH1>
+                <CustomH1>Server Error</CustomH1>
             </Container>
         </MainLayout>
     );
@@ -41,4 +41,4 @@ export const getStaticProps: GetStaticProps = async () => {
     };
 };
 
-export default Custom404;
+export default Custom500;
